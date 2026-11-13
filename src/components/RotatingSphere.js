@@ -15,7 +15,7 @@ export default function RotatingSphere({ speedRef }) {
   return (
     <mesh ref={meshRef} position={[-2, 0, 0]}>
       <sphereGeometry args={[1.8, 64, 64]} />
-      <meshStandardMaterial color="#3B82F6" wireframe />
+      <meshStandardMaterial color="#8e223a" wireframe />
     </mesh>
   );
 }

@@ -3,27 +3,48 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  --bg-canvas: #fcfbf9;
+  --bg-card: #ffffff;
+  --border-subtle: #e6dfd5;
+  --border-strong: #d4c8ba;
+  --color-wine: #701124;
+  --color-wine-dark: #560b1b;
+  --color-wine-soft: #faeef0;
+  --color-peach: #ea6541;
+  --color-peach-soft: #feeae2;
+  --text-primary: #1e080d;
+  --text-secondary: #5e484c;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: var(--text-primary);
+  background-color: var(--bg-canvas);
+  min-height: 100vh;
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background-color: #feeae2;
+  color: #701124;
+}
+
+/* Crisp scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f6f3ed;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d9cdc1;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b89f90;
 }
 
 @layer utilities {

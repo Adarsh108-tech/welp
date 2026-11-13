@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import { FiPlay, FiPause, FiRotateCcw, FiX, FiBell } from "react-icons/fi";
 
 export default function WorkRestTimer() {
   const [isWork, setIsWork] = useState(true);
@@ -95,79 +96,86 @@ export default function WorkRestTimer() {
   const progress = (seconds / totalSessionSeconds) * circumference;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#0f172a] text-white space-y-8 px-4 relative">
+    <div className="flex flex-col items-center justify-center p-8 bg-[#ffffff] border border-[#ebdcd0] rounded-3xl shadow-sm text-wine-950 space-y-6 max-w-md mx-auto">
       <audio ref={alarmRef} src="/alarm.mp3" preload="auto" />
-      <h2 className="text-4xl font-bold text-cyan-400 drop-shadow-lg tracking-wide">
-        {isWork ? "💼 Work Session" : "😌 Rest Session"}
-      </h2>
+      <div className="text-center">
+        <span className="text-[10px] uppercase tracking-wider font-bold text-burgundy-900 bg-peach-100 px-3 py-1 rounded-full border border-peach-300">
+          Cycle Interval
+        </span>
+        <h2 className="text-2xl font-black text-burgundy-950 mt-2">
+          {isWork ? "Work Interval" : "Rest Interval"}
+        </h2>
+      </div>
 
       {!sessionStarted ? (
-        <div className="flex flex-col gap-6 max-w-md w-full">
-          <div className="space-y-3">
-            <h3 className="text-lg text-cyan-300 font-semibold">Set Work Time</h3>
-            <div className="flex gap-4">
+        <div className="flex flex-col gap-4 w-full">
+          <div className="space-y-1.5">
+            <h3 className="text-xs text-wine-900/70 font-bold uppercase tracking-wider">Work Duration</h3>
+            <div className="flex gap-3">
               <input
                 type="number"
                 placeholder="Hours"
                 value={workHours}
                 onChange={(e) => setWorkHours(e.target.value)}
-                className="w-full bg-[#1e293b] border border-cyan-500 text-white text-center p-3 rounded-md focus:ring-2 focus:ring-cyan-400"
+                className="w-full bg-[#fcfbf9] border border-[#dfd2c4] text-burgundy-950 text-center p-3 rounded-xl focus:outline-none focus:border-burgundy-700 text-sm font-semibold"
               />
               <input
                 type="number"
                 placeholder="Minutes"
                 value={workMinutes}
                 onChange={(e) => setWorkMinutes(e.target.value)}
-                className="w-full bg-[#1e293b] border border-cyan-500 text-white text-center p-3 rounded-md focus:ring-2 focus:ring-cyan-400"
+                className="w-full bg-[#fcfbf9] border border-[#dfd2c4] text-burgundy-950 text-center p-3 rounded-xl focus:outline-none focus:border-burgundy-700 text-sm font-semibold"
               />
             </div>
           </div>
 
-          <div className="space-y-3">
-            <h3 className="text-lg text-cyan-300 font-semibold">Set Rest Time</h3>
-            <div className="flex gap-4">
+          <div className="space-y-1.5">
+            <h3 className="text-xs text-wine-900/70 font-bold uppercase tracking-wider">Rest Duration</h3>
+            <div className="flex gap-3">
               <input
                 type="number"
                 placeholder="Hours"
                 value={restHours}
                 onChange={(e) => setRestHours(e.target.value)}
-                className="w-full bg-[#1e293b] border border-cyan-500 text-white text-center p-3 rounded-md focus:ring-2 focus:ring-cyan-400"
+                className="w-full bg-[#fcfbf9] border border-[#dfd2c4] text-burgundy-950 text-center p-3 rounded-xl focus:outline-none focus:border-burgundy-700 text-sm font-semibold"
               />
               <input
                 type="number"
                 placeholder="Minutes"
                 value={restMinutes}
                 onChange={(e) => setRestMinutes(e.target.value)}
-                className="w-full bg-[#1e293b] border border-cyan-500 text-white text-center p-3 rounded-md focus:ring-2 focus:ring-cyan-400"
+                className="w-full bg-[#fcfbf9] border border-[#dfd2c4] text-burgundy-950 text-center p-3 rounded-xl focus:outline-none focus:border-burgundy-700 text-sm font-semibold"
               />
             </div>
           </div>
 
           <button
             onClick={startSession}
-            className="bg-cyan-500 hover:bg-cyan-600 px-6 py-3 rounded-full shadow-lg text-black font-semibold tracking-wide"
+            disabled={getCurrentSessionSeconds() <= 0}
+            className="w-full bg-burgundy-800 hover:bg-burgundy-900 disabled:opacity-40 text-white font-bold py-3 rounded-xl text-xs transition shadow-xs flex items-center justify-center gap-2 mt-2"
           >
-            Start Session
+            <FiPlay className="w-3.5 h-3.5 text-peach-300" />
+            <span>Start Interval Cycle</span>
           </button>
         </div>
       ) : (
         <>
-          <div className="relative w-60 h-60">
+          <div className="relative w-56 h-56">
             <svg className="w-full h-full transform -rotate-90">
               <circle
                 cx="50%"
                 cy="50%"
                 r={radius}
-                stroke="#334155"
-                strokeWidth="12"
+                stroke="#f3ece4"
+                strokeWidth="10"
                 fill="transparent"
               />
               <circle
                 cx="50%"
                 cy="50%"
                 r={radius}
-                stroke="#06b6d4"
-                strokeWidth="12"
+                stroke="#701124"
+                strokeWidth="10"
                 fill="transparent"
                 strokeDasharray={circumference}
                 strokeDashoffset={circumference - progress}
@@ -176,54 +184,63 @@ export default function WorkRestTimer() {
               />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-4xl font-mono text-cyan-300 drop-shadow-md">
+              <span className="text-3xl font-mono font-bold text-burgundy-950">
                 {formatTime(seconds)}
               </span>
             </div>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4 mt-6">
+          <div className="flex flex-wrap justify-center gap-2">
             {!isRunning ? (
               <button
                 onClick={() => setIsRunning(true)}
-                className="bg-green-500 px-6 py-2 rounded-full hover:bg-green-600 text-black font-semibold shadow"
+                className="bg-burgundy-800 hover:bg-burgundy-900 text-white text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-xs transition"
               >
-                ▶️ Resume
+                <FiPlay className="w-3.5 h-3.5 text-peach-300" />
+                <span>Resume</span>
               </button>
             ) : (
               <button
                 onClick={() => setIsRunning(false)}
-                className="bg-yellow-400 px-6 py-2 rounded-full hover:bg-yellow-500 text-black font-semibold shadow"
+                className="bg-[#f7f2ea] hover:bg-peach-100 text-burgundy-950 border border-[#dfd2c4] text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5 transition"
               >
-                ⏸️ Pause
+                <FiPause className="w-3.5 h-3.5" />
+                <span>Pause</span>
               </button>
             )}
             <button
               onClick={reset}
-              className="bg-purple-500 px-6 py-2 rounded-full hover:bg-purple-600 text-white font-semibold shadow"
+              className="bg-[#f7f2ea] hover:bg-peach-100 text-burgundy-950 border border-[#dfd2c4] text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5 transition"
             >
-              🔄 Reset
+              <FiRotateCcw className="w-3.5 h-3.5" />
+              <span>Reset</span>
             </button>
             <button
               onClick={endSession}
-              className="bg-red-600 px-6 py-2 rounded-full hover:bg-red-700 text-white font-semibold shadow"
+              className="bg-wine-100 hover:bg-wine-200 text-burgundy-950 border border-wine-300 text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5 transition"
             >
-              ❌ End Session
+              <FiX className="w-3.5 h-3.5" />
+              <span>End</span>
             </button>
           </div>
         </>
       )}
 
       {showAlarm && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-          <div className="bg-white text-black rounded-lg p-8 text-center shadow-xl max-w-sm w-full">
-            <h3 className="text-2xl font-bold mb-4">⏰ Time's Up!</h3>
-            <p className="mb-6">Your {isWork ? "work" : "rest"} session has ended.</p>
+        <div className="fixed inset-0 bg-burgundy-950/40 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+          <div className="bg-[#ffffff] border border-[#ebdcd0] rounded-3xl p-6 text-center shadow-xl max-w-sm w-full space-y-4">
+            <div className="w-12 h-12 rounded-2xl bg-peach-100 border border-peach-300 flex items-center justify-center mx-auto text-burgundy-800">
+              <FiBell className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-black text-burgundy-950">Interval Finished</h3>
+            <p className="text-xs text-wine-900/70 font-medium">
+              Your {isWork ? "work" : "rest"} interval has finished. Ready for the next phase?
+            </p>
             <button
               onClick={stopAlarm}
-              className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-full font-semibold shadow"
+              className="w-full bg-burgundy-800 hover:bg-burgundy-900 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-xs"
             >
-              Stop Alarm
+              Proceed to Next Interval
             </button>
           </div>
         </div>
